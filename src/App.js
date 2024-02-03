@@ -53,10 +53,13 @@ const[selected,setSelected]=useState(null)
   return<div className="app">
     <div className="sidebar">
     <FriendsList name={name} friends={friends} selected={selected} onSlection={handleSelection}/>
-    {showAddFriendForm && <FormofAddFriend onHandleAddfriend={handleAddFriend} name={name} onSetName={setName} image={image} onSetimageLink={setImageLink}/>}
-    <Button onClick={()=>setShowAddFriendForm(e=>selected? setSelected(null):!e)}>{showAddFriendForm?'close':'Add friend'}</Button>
+    {showAddFriendForm && 
+    <FormofAddFriend onHandleAddfriend={handleAddFriend} name={name} onSetName={setName} image={image} onSetimageLink={setImageLink}/>}
+    <Button onClick={()=>setShowAddFriendForm(e=>selected? setSelected(null):!e)}>{showAddFriendForm?'close':'Add friend'}
+    </Button>
     </div>
-    {selected &&<FormSplitBill  onSplitBill={handleSplitBill} select={selected}/>}
+    {selected &&
+    <FormSplitBill key={selected.id}  onSplitBill={handleSplitBill} select={selected}/>}
   </div>
 }
 
@@ -122,7 +125,7 @@ function FormofAddFriend({name,onSetName,image,onSetimageLink,onHandleAddfriend}
        </form>
 
 }
-function FormSplitBill({select ,onSplitBill}){
+function FormSplitBill({select ,onSplitBill,key}){
   const[bill,setBill]=useState(0)
   const[userExpense,setUserExpense]=useState()
   const[whopay,setWhopay]=useState()
@@ -135,7 +138,7 @@ function FormSplitBill({select ,onSplitBill}){
 
   function handleSplit(e){
     e.preventDefault()
-   
+    
     if(!bill||!userExpense) return;
     onSplitBill(whopay==='user' ? paidbyfriend: -paidbyfriend)
  
